@@ -18,5 +18,13 @@ from django.contrib import admin
 from Connor import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'index', views.index),
+    url(r'^login/', views.login),
+    url(r'^index/', views.index),
+    url(r'^topFrame',views.topFrame),
+    url(r'^colFrame',views.colFrame),
+    url(r'^MenuFrame',views.MenuFrame),
+    url(r'^pushRLFrame',views.pushRLFrame),
+    url(r'^PageFrame', views.PageFrame),
+    url(r'^Page_lwtj',views.Page_lwtj),
+    url(r'spiderSen',views.spiderSen),
 ]
