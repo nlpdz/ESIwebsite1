@@ -21,6 +21,7 @@ def index(request):
         else:
             return render(request,"login.html",{"message":"用户不存在或密码错误"})
     else:
+
         return render(request, "login.html", {"message": "走正门"})
 # 主界面顶部控制器
 def topFrame(request):
@@ -39,10 +40,25 @@ def pushRLFrame(request):
 # 主界面默认内容控制器
 def PageFrame(request):
     import tools
+    import time
     startdata, enddata = tools.daterange()
+    #读取配置文件location.conf
+    #这种方法慢了
+    # if not models.locationconf.objects.count():
+    #     models.locationconf.objects.create(user="nlp",page="1",li="0")
+    info = models.locationconf.objects.filter(id ="1")
+    if not info:
+        models.locationconf.objects.create(user="nlp",page="1",li="0",time=time.strftime('%Y-%m-%d', time.localtime(time.time())))
+    user = info.values()[0]["user"]
+    page = info.values()[0]["page"]
+    li = info.values()[0]["li"]
+    saved = int(page) * int(li)
+    time = info.values()[0]["time"]
+    #如果收到后台请求
     if request.method == "POST":
         import sys
         sys.path.append("..")
+        #爬虫
         from spider.crawl_list import ESIspider
         from Connor.models import EsiDissertation
         es = ESIspider()
@@ -51,14 +67,15 @@ def PageFrame(request):
         startdate = request.POST.get('startdate')
         enddate = request.POST.get('enddate')
         btn = "暂停"
-        status = 1
+        status = 11
         result = "Error!"
         return HttpResponse(json.dumps({
             "status": status,
             "result": result,
             "btn": btn
         }))
-    return render(request,"PageFrame.html",{"startdata" : startdata, "enddata" : enddata})
+
+    return render(request,"PageFrame.html",{"startdata" : startdata, "enddata" : enddata, "user" : user, "saved" : str(saved),  "time" : time})
 #论文统计控制器
 def Page_lwtj(request):
     return render(request,"Page_lwtj.html")

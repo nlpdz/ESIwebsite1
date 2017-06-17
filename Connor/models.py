@@ -13,3 +13,26 @@ class EsiDissertation(models.Model):
     author = models.CharField(max_length = 500, null=True)
     context = models.TextField(max_length = 500, null=True)
     publication = models.CharField(max_length = 255, null=True)
+
+class locationconf(models.Model):
+    user = models.CharField(max_length = 32, null=True)
+    page = models.CharField(max_length = 5, null=True)
+    li = models.CharField(max_length=5, null=True)
+    time = models.DateField(null=True)
+
+class Dissertation(models.Model):
+    TITLE = models.TextField(max_length=500, null=True)
+    DATE = models.CharField(max_length=100, null=True)
+    AULIST = models.TextField(max_length=500, null=True)
+    AUWUST = models.CharField(max_length=100, null=True)
+    PUBLICATION = models.CharField(max_length=100, null=True)
+    CATECORY = models.CharField(max_length=100, null=True)
+    WOSID = models.CharField(max_length=100, null=True)
+    WOSCATE = models.CharField(max_length=500, null=True)
+    RESEARCHDIR = models.CharField(max_length=500, null=True)
+    REFERCOUNT = models.IntegerField(null=True)
+    MECHANISM = models.TextField(max_length=500, null=True)
+
+class refer(models.Model):
+    TITLE = models.CharField(max_length=500, null=True)
+    REFERENCE_TITLE = models.CharField(max_length=500, null=True)
