@@ -47,19 +47,23 @@ python manage.py runserver
 Templates文件夹下创建html页；
 views.py中return页面；
 urls.py中注册路径；
+
 2. 创建model  
 models.py中建类
 确定settings中注册app；
 python manage.py makemigrations（保存临时）；
 python manage.py migrate（真正创建）；
 在views.py中实现相关功能；
+
 3. 修改model  
 在models.py中修改；
 python manage.py makemigrations；
 python manage.py migrate；
 更新model失败：给字段增加参数null=True，重新运行；
+
 4. 静态文件更新不及时  
 静态目录被访问多次后会加入缓存，可以修改一下静态文件名（推荐增加前缀）
+
 5. 注册管理员  
 
 ```
@@ -74,12 +78,12 @@ python manage.py migrate；
     
     admin.site.register(UserInfo)
 ```
-输入网址访问本地后台管理
+7. 输入网址访问本地后台管理
 
 ```
     120.0.0.1/admin
 ```
-7. 增添爬虫  
+8. 增添爬虫  
 在spider中修改或增加爬虫，在views中调用爬虫并获得返回值，在views中插入到数据库。
 在爬虫中使用model：
 ```
