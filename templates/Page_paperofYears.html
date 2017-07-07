@@ -3,24 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <title>年度论文发表数</title>
+    <script src="http://echarts.baidu.com/dist/echarts.common.min.js"></script>
 </head>
 <body>
-<p>{{ data.count }}</p>
-<table>
-      <thead>
-          <th>发表年份</th>
-          <th>发表数量</th>
-          <th>被引频次</th>
-      </thead>
-      <tbody>
-        {% for line in data %}
-        <tr>
-          <td>{{ line.DATE }}</td>
-          <td> </td>
-          <td>{{ line.REFERCOUNT }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-  </table>
+<div id="chart" style="width: 100%;height: 450px;"></div>
+<script type="text/javascript">
+    var myChart = echarts.init(document.getElementById('chart'));
+    var option = {
+        tooltip : {
+            trigger: 'axis',
+            axisPointer : {
+                type : 'shadow'
+            }
+        },
+        legend: {
+            data:['论文篇数（篇）', '被引次数（次）']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis : [
+            {
+                show: false
+            }
+        ],
+        yAxis : [
+            {
+                type : 'category',
+                axisTick : {show: false},
+                data : {{ years }}
+            }
+        ],
+        series : [
+            {
+                name:'论文篇数（篇）',
+                type:'bar',
+                stack: '总量',
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'left',
+                        formatter: function(params) {
+                            return Math.abs(params.data);
+                        }
+                    }
+                },
+                data: {{ totalcount }}
+            },
+            {
+                name:'被引次数（次）',
+                type:'bar',
+                stack: '总量',
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'right'
+                    }
+                },
+                data: {{ refcount }}
+            }
+        ]
+    };
+    myChart.setOption(option);
+</script>
 </body>
 </html>
