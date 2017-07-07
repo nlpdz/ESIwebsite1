@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>年度论文发表数</title>
+</head>
+<body>
+<p>{{ data.count }}</p>
+<table>
+      <thead>
+          <th>发表年份</th>
+          <th>发表数量</th>
+          <th>被引频次</th>
+      </thead>
+      <tbody>
+        {% for line in data %}
+        <tr>
+          <td>{{ line.DATE }}</td>
+          <td> </td>
+          <td>{{ line.REFERCOUNT }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+  </table>
+</body>
+</html>

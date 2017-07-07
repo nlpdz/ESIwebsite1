@@ -82,3 +82,8 @@ def Page_lwtj(request):
 #论文统计控制器
 def spiderSen(request):
     return render(request,"PageFrame.html")
+
+#年度论文图表
+def Page_paperofYears(request):
+    paper_data = models.Dissertation.objects.filter(DATE__contains=2006)
+    return render(request,"Page_paperofYears.html",{"data":paper_data})
