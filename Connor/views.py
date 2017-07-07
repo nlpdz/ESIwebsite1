@@ -2,6 +2,7 @@
 from django.shortcuts import render
 from Connor import models
 from django.http import HttpResponse
+import time
 import json
 # Create your views here.
 
@@ -85,5 +86,22 @@ def spiderSen(request):
 
 #年度论文图表
 def Page_paperofYears(request):
-    paper_data = models.Dissertation.objects.filter(DATE__contains=2006)
-    return render(request,"Page_paperofYears.html",{"data":paper_data})
+    cur_year = int(time.strftime('%Y', time.localtime(time.time())))
+
+    years = []
+    ref_count = []
+    total_count = []
+    for year in range(cur_year - 10, cur_year + 1):
+        year_ref_count = 0
+        year_total_count = 0
+        paper_data = models.Dissertation.objects.filter(DATE__contains=year)
+        for paper in paper_data:
+            year_ref_count += paper.REFERCOUNT
+            year_total_count += 1
+
+        years.append(year)
+        ref_count.append(year_ref_count),
+        # times -1 to show the data on the left in the chart
+        total_count.append(year_total_count * -1)
+
+    return render(request, "Page_paperofYears.html", {'years': years, 'refcount': ref_count, 'totalcount': total_count})
