@@ -6,15 +6,28 @@
     <script src="http://echarts.baidu.com/dist/echarts.common.min.js"></script>
 </head>
 <body style="height: 100%;">
-<div id="chart" style="left: 20%; width: 60%;height: 100%;"></div>
+<div id="chart" style="left: 10%; width: 80%;height: 100%;"></div>
 <script type="text/javascript">
     var myChart = echarts.init(document.getElementById('chart'));
+    var esi = {{ esi | safe }};
     window.onresize = myChart.resize;
-    var option = {
+    var topOption = {
+        title: {
+            text: '年度发表论文'
+        },
         tooltip : {
             trigger: 'axis',
             axisPointer : {
                 type : 'shadow'
+            }
+        },
+        toolbox: {
+            show: true,
+            right: '5%',
+            feature: {
+                dataView: {readOnly: false},
+                magicType: {type: ['line', 'bar']},
+                saveAsImage: {}
             }
         },
         legend: {
@@ -35,6 +48,9 @@
             {
                 type : 'category',
                 axisTick : {show: false},
+                axisLabel: {
+                    formatter: '{value} 年'
+                },
                 data : {{ years }}
             }
         ],
@@ -44,7 +60,7 @@
         itemStyle: {
             normal: {
                 shadowBlur: 10,
-                shadowColor: 'rgba(0, 0, 0, 0.6)',
+                shadowColor: 'rgba(0, 0, 0, 0.6)'
             }
         },
         series : [
@@ -87,7 +103,94 @@
             }
         ]
     };
-    myChart.setOption(option);
+
+    myChart.setOption(topOption);
+    myChart.on('click', function(params) {
+        if(isNaN(params.name))
+            return;
+
+        var option = {
+            title: {
+            text: params.name + '年ESI分类统计'
+            },
+            tooltip : {
+                trigger: 'axis',
+                axisPointer : {
+                    type : 'shadow'
+                }
+            },
+            toolbox: {
+                show: true,
+                right: '5%',
+                feature: {
+                    myRestore: {
+                        show: true,
+                        title: '返回',
+                        icon: 'image://../static/imgs/return.png',
+                        onclick: function (){
+                            myChart.clear();
+                            myChart.setOption(topOption, true);
+                        }
+                    },
+                    dataView: {readOnly: false},
+                    magicType: {type: ['line', 'bar']},
+                    saveAsImage: {}
+                }
+            },
+            legend: {
+                data:['论文篇数（篇）']
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis : [
+                {
+                    show: false
+                }
+            ],
+            yAxis : [
+                {
+                    type : 'category',
+                    axisTick : {show: false},
+                    data : Object.keys(esi[params.name])
+                }
+            ],
+            animationDelay: function (idx) {
+                return 700 - idx * 70;
+            },
+            itemStyle: {
+                normal: {
+                    shadowBlur: 10,
+                    shadowColor: 'rgba(0, 0, 0, 0.6)'
+                }
+            },
+            series : [
+                {
+                    name:'论文篇数（篇）',
+                    type:'bar',
+                    stack: '总量',
+                    itemStyle: {
+                        normal: {
+                            color: '#6c95c4'
+                        }
+                    },
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'right'
+                        }
+                    },
+                    data: Object.values(esi[params.name])
+                }
+            ]
+        };
+        myChart.clear();
+        myChart.setOption(option, true);
+
+    }.bind(this));
 </script>
 </body>
 </html>

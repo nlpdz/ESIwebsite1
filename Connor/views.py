@@ -91,17 +91,35 @@ def Page_paperofYears(request):
     years = []
     ref_count = []
     total_count = []
+    esi_category = {'Computer Science': 0, 'Engineering': 0, 'Materials Sciences': 0, 'Biology & Biochemistry': 0,
+           'Environment & Ecology': 0, 'Microbiology': 0, 'Molecular Biology & Genetics': 0, 'Social Sciences': 0,
+           'Economics & Business': 0, 'Chemistry': 0, 'Geosciences': 0, 'Mathematics': 0, 'Physics': 0, 'Space Science': 0,
+            'Agricultural Sciences': 0, 'Plant & Animal Science': 0, 'Clinical Medicine': 0, 'Immunology': 0,
+           'Neuroscience & Behavior': 0, 'Pharmacology & Toxicology': 0, 'Psychology & Psychiatry': 0,
+           'Multidisciplinary': 0, 'Non-ESI': 0}
+
+    esi_statistics = {}
+
     for year in range(cur_year - 10, cur_year + 1):
         year_ref_count = 0
         year_total_count = 0
+        esi_statistics[year] = esi_category.copy()
         paper_data = models.Dissertation.objects.filter(DATE__contains=year)
         for paper in paper_data:
             year_ref_count += paper.REFERCOUNT
             year_total_count += 1
+            if ';' in paper.RESEARCHDIR:
+                esi_statistics[year]['Multidisciplinary'] += 1
+            else:
+                if paper.RESEARCHDIR not in esi_statistics[year]:
+                    esi_statistics[year]['Non-ESI'] += 1
+                else:
+                    esi_statistics[year][paper.RESEARCHDIR] += 1
 
         years.append(year)
         ref_count.append(year_ref_count),
         # times -1 to show the data on the left in the chart
         total_count.append(year_total_count * -1)
 
-    return render(request, "Page_paperofYears.html", {'years': years, 'refcount': ref_count, 'totalcount': total_count})
+    return render(request, "Page_paperofYears.html",
+                  {'years': years, 'refcount': ref_count, 'totalcount': total_count, 'esi': json.dumps(esi_statistics)})
