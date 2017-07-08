@@ -12,6 +12,9 @@
     var esi = {{ esi | safe }};
     window.onresize = myChart.resize;
     var topOption = {
+        title: {
+            text: '年度发表论文'
+        },
         tooltip : {
             trigger: 'axis',
             axisPointer : {
