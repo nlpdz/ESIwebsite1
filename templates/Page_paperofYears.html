@@ -38,6 +38,9 @@
                 data : {{ years }}
             }
         ],
+        animationDelay: function (idx) {
+            return 700 - idx * 70;
+        },
         series : [
             {
                 name:'论文篇数（篇）',
