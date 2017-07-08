@@ -19,6 +19,31 @@
             trigger: 'axis',
             axisPointer : {
                 type : 'shadow'
+            },
+{#            formatter:function (params) {#}
+{#                return Math.abs(params[0].data)+':'+params[1].data#}
+{#            }#}
+            formatter:function (params) {
+                //init content
+                var content = '';
+                //year of data
+                for(var i = 0; i < params.length; i++){
+                    if(params[i].name){
+                        content += "<div class='charts-tipc'><p class='charts-p'>"+params[i].name + "</p>";
+                        break;
+                    }
+                }
+                //data convert
+                for(var i = 0, key = {}; i < params.length; i++){
+                    key = params[i];
+                    if( key.data<0 )
+                        key.data = Math.abs(key.data);
+                    content += "<p class='charts-p'><i class='charts-r' style='background-color: " + key.color + " '></i> " + key.seriesName + " : " + key.data + "</p>";
+                }
+
+                content += '</div>';
+                return content;
+
             }
         },
         toolbox: {
