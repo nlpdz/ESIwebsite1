@@ -88,9 +88,8 @@ def spiderSen(request):
 def Page_paperofYears(request):
     cur_year = int(time.strftime('%Y', time.localtime(time.time())))
 
-    years = []
-    ref_count = []
-    total_count = []
+    ref_count = {}
+    total_count = {}
     esi_category = {'Computer Science': 0, 'Engineering': 0, 'Materials Sciences': 0, 'Biology & Biochemistry': 0,
            'Environment & Ecology': 0, 'Microbiology': 0, 'Molecular Biology & Genetics': 0, 'Social Sciences': 0,
            'Economics & Business': 0, 'Chemistry': 0, 'Geosciences': 0, 'Mathematics': 0, 'Physics': 0, 'Space Science': 0,
@@ -116,10 +115,12 @@ def Page_paperofYears(request):
                 else:
                     esi_statistics[year][paper.RESEARCHDIR] += 1
 
-        years.append(year)
-        ref_count.append(year_ref_count),
+        ref_count[year] = year_ref_count * 1
         # times -1 to show the data on the left in the chart
-        total_count.append(year_total_count * -1)
+        total_count[year] = year_total_count * -1
 
-    return render(request, "Page_paperofYears.html",
-                  {'years': years, 'refcount': ref_count, 'totalcount': total_count, 'esi': json.dumps(esi_statistics)})
+    return render(request, "Page_paperofYears.html", {
+                      'refcount': json.dumps(ref_count),
+                      'totalcount': json.dumps(total_count),
+                      'esi': json.dumps(esi_statistics)
+                  })
