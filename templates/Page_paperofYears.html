@@ -41,11 +41,22 @@
         animationDelay: function (idx) {
             return 700 - idx * 70;
         },
+        itemStyle: {
+            normal: {
+                shadowBlur: 10,
+                shadowColor: 'rgba(0, 0, 0, 0.6)',
+            }
+        },
         series : [
             {
                 name:'论文篇数（篇）',
                 type:'bar',
                 stack: '总量',
+                itemStyle: {
+                    normal: {
+                        color: '#6c95c4'
+                    }
+                },
                 label: {
                     normal: {
                         show: true,
@@ -61,6 +72,11 @@
                 name:'被引次数（次）',
                 type:'bar',
                 stack: '总量',
+                itemStyle: {
+                    normal: {
+                        color: '#eea966'
+                    }
+                },
                 label: {
                     normal: {
                         show: true,
