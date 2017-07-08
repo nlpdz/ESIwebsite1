@@ -15,16 +15,16 @@
         title: {
             text: '年度发表论文'
         },
-        tooltip : {
+        tooltip: {
             trigger: 'axis',
-            axisPointer : {
-                type : 'shadow'
+            axisPointer: {
+                type: 'shadow'
             },
-            formatter:function (params) {
+            formatter: function (params) {
                 var content = params[0].name + '<br />';
 
-                params.map(function(series) {
-                   content += series.marker + ' ' + series.seriesName + ': ' + Math.abs(series.value) + '<br />';
+                params.map(function (series) {
+                    content += series.marker + ' ' + series.seriesName + ': ' + Math.abs(series.value) + '<br />';
                 });
 
                 return content;
