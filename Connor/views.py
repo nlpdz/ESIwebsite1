@@ -56,14 +56,14 @@ def PageFrame(request):
     time = info.values()[0]["time"]
     #如果收到后台请求
     if request.method == "POST":
-        import sys
-        sys.path.append("..")
-        #爬虫
-        from spider.crawl_list import ESIspider
-        from Connor.models import EsiDissertation
-        es = ESIspider()
-        title, context, author, publication = es.get_SCIurl()
-        EsiDissertation.objects.create(title=title, author=author, context=context, publication=publication)
+        # import sys
+        # sys.path.append("..")
+        # #爬虫
+        # from spider.crawl_list import ESIspider
+        # from Connor.models import EsiDissertation
+        # es = ESIspider()
+        # title, context, author, publication = es.get_SCIurl()
+        # EsiDissertation.objects.create(title=title, author=author, context=context, publication=publication)
         startdate = request.POST.get('startdate')
         enddate = request.POST.get('enddate')
         btn = "暂停"
