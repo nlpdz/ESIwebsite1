@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>论文查询</title>
+</head>
+<body>
+<form action="#" method="post">
+    <input type="text" name="title" value="输入查询标题" onclick="this.value = ''"/>
+    <input type="submit" value="查询" />
+</form>
+<hr />
+<table>
+    <thead>
+        <th>标题 </th>
+        <th>日期 </th>
+    </thead>
+    <tbody>
+        {% for line in data %}
+            <tr>
+                <td>{{ line.TITLE }}</td>
+                <td>{{ line.DATE }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</body>
+</html>

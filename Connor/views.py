@@ -124,3 +124,26 @@ def Page_paperofYears(request):
                       'totalcount': json.dumps(total_count),
                       'esi': json.dumps(esi_statistics)
                   })
+
+
+
+def Page_lwzl(request):
+    if request.method == "POST":
+        title = request.POST.get('title', None)
+        paper_list = models.Dissertation.objects.filter(TITLE__contains=title)
+        return render(request, "Page_lwzl.html",{"data":paper_list})
+    return render(request, "Page_lwzl.html")
+
+def Page_yygx(request):
+    import time
+    thisyear = int(time.strftime('%Y', time.localtime(time.time())))
+    year = [x for x in range(thisyear-10,thisyear+1)]
+    if request.method == "POST":
+        paper_pair = []
+        searchYear = request.POST.get('selyear', None)
+        paper_list = models.Dissertation.objects.values("TITLE").filter(DATE__contains=searchYear)[:10]
+        for paper in paper_list:
+            refer = models.refer.objects.filter(TITLE__contains=paper['TITLE'])
+            paper_pair.append(refer)
+        return render(request, "Page_yygx.html", {"year":year, "paper_pair":paper_pair})
+    return render(request, "Page_yygx.html", {"year": year})

@@ -319,7 +319,7 @@ class ESIspider():
                 else:
                     continue
                 print (' [authorlist] ', end='')
-                #获得机构列表
+                #获得机构列表 此处有问题
                 for j in ['1','2','3','4','5','6']:
                     univerminid = 'addressWOS:000238230900018-'+j
                     univermin = detailpage.find('a', id=univerminid)

@@ -1,31 +1,29 @@
-# import os
-# os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ESIwebsite.settings")
-# import django
-# django.setup()
-# from Connor.models import EsiDissertation
-# EsiDissertation.objects.create(title='t1', author='t1', context='t1', publication='t1')
-# with open('breakpoint.log') as f:
-#     log = f.read()
-#     log = eval(log)
-#     print log['page'], log['item']
-#
-# with file('breakpoint.log','w') as f:
-#     log = {
-#         'page':1,
-#         'item':1
-#     }
-#     f.write(str(log))
-import traceback
-def bbs():
-    try:
-        try:
-            print '1'
-            1/0
-            print '2'
-        finally:
-            print '3'
-    except:
-        traceback.print_exc()
-        bbs()
+from urllib2 import urlopen,Request
+import threading
+from time import ctime,sleep
+headers = {
+    "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36",
+    'X-Forwarded-For':'61.103.192.15',
+}
+url1 = "http://ir.wust.edu.cn/AchivementDetails/Index/92630"
+url2 = "http://ir.wust.edu.cn/AchivementDetails/Index/92629"
+def click1(c):
+    for i in xrange(c):
+        req = Request(url1, headers=headers)
+        urlopen(req, timeout=5)
+def click2(c):
+    for i in xrange(c):
+        req = Request(url2, headers=headers)
+        urlopen(req, timeout=5)
+threads = []
 
-bbs()
+threads.append(threading.Thread(target=click1,args=(10,)))
+threads.append(threading.Thread(target=click2,args=(10,)))
+if __name__ == '__main__':
+    for t in threads:
+        t.setDaemon(True)
+        t.start()
+    for t in threads:
+        t.join()
+    print "all over %s" %ctime()
+
