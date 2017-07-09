@@ -22,7 +22,6 @@ def index(request):
         else:
             return render(request,"login.html",{"message":"用户不存在或密码错误"})
     else:
-
         return render(request, "login.html", {"message": "走正门"})
 # 主界面顶部控制器
 def topFrame(request):
@@ -124,8 +123,6 @@ def Page_paperofYears(request):
                       'totalcount': json.dumps(total_count),
                       'esi': json.dumps(esi_statistics)
                   })
-
-
 
 def Page_lwzl(request):
     if request.method == "POST":
