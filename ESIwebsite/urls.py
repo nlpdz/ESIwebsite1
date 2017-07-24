@@ -29,4 +29,6 @@ urlpatterns = [
     url(r'spiderSen',views.spiderSen),
     url(r'Page_paperofYears',views.Page_paperofYears),
     url(r'Page_yygx.html', views.Page_yygx),
+    url(r'^Page_lwzl', views.Page_lwzl),
+    url(r'^Page_lwyp',views.Page_lwyp),
 ]
