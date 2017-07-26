@@ -217,3 +217,26 @@ def Page_yygx(request):
             paper_pair.append(refer)
         return render(request, "Page_yygx.html", {"year":year, "paper_pair":paper_pair})
     return render(request, "Page_yygx.html", {"year": year})
+
+def Page_ComputerScience(request):
+    if request.session.get('username', None):
+        #在Dissertation数据库中统计各区间被引频次
+        import re
+        from django.db.models import Q
+        refercount_150 = models.Dissertation.objects.filter(Q(RESEARCHDIR__startswith='Computer Science') | Q(RESEARCHDIR__startswith='Science & Technology'), REFERCOUNT__gte=150).count()
+        refercount_101 = models.Dissertation.objects.filter(Q(RESEARCHDIR__startswith='Computer Science') | Q(RESEARCHDIR__startswith='Science & Technology'), REFERCOUNT__range=(101, 150)).count()
+        refercount_71 = models.Dissertation.objects.filter(Q(RESEARCHDIR__startswith='Computer Science') | Q(RESEARCHDIR__startswith='Science & Technology'), REFERCOUNT__range=(71, 100)).count()
+        refercount_51 = models.Dissertation.objects.filter(Q(RESEARCHDIR__startswith='Computer Science') | Q(RESEARCHDIR__startswith='Science & Technology'), REFERCOUNT__range=(51, 70)).count()
+        refercount_31 = models.Dissertation.objects.filter(Q(RESEARCHDIR__startswith='Computer Science') | Q(RESEARCHDIR__startswith='Science & Technology'), REFERCOUNT__range=(31, 50)).count()
+        refercount_21 = models.Dissertation.objects.filter(Q(RESEARCHDIR__startswith='Computer Science') | Q(RESEARCHDIR__startswith='Science & Technology'), REFERCOUNT__range=(21, 30)).count()
+        refercount_11 = models.Dissertation.objects.filter(Q(RESEARCHDIR__startswith='Computer Science') | Q(RESEARCHDIR__startswith='Science & Technology'), REFERCOUNT__range=(11, 20)).count()
+        refercount_5 = models.Dissertation.objects.filter(Q(RESEARCHDIR__startswith='Computer Science') | Q(RESEARCHDIR__startswith='Science & Technology'), REFERCOUNT__range=(5, 10)).count()
+        refercount_4 = models.Dissertation.objects.filter(Q(RESEARCHDIR__startswith='Computer Science') | Q(RESEARCHDIR__startswith='Science & Technology'), REFERCOUNT__exact=4).count()
+        refercount_3 = models.Dissertation.objects.filter(Q(RESEARCHDIR__startswith='Computer Science') | Q(RESEARCHDIR__startswith='Science & Technology'), REFERCOUNT__exact=3).count()
+        refercount_2 = models.Dissertation.objects.filter(Q(RESEARCHDIR__startswith='Computer Science') | Q(RESEARCHDIR__startswith='Science & Technology'), REFERCOUNT__exact=2).count()
+        refercount_1 = models.Dissertation.objects.filter(Q(RESEARCHDIR__startswith='Computer Science') | Q(RESEARCHDIR__startswith='Science & Technology'), REFERCOUNT__exact=1).count()
+        refercount_0 = models.Dissertation.objects.filter(Q(RESEARCHDIR__startswith='Computer Science') | Q(RESEARCHDIR__startswith='Science & Technology'), REFERCOUNT__exact=0).count()
+        dict = {"refercount_150": refercount_150, "refercount_101": refercount_101, "refercount_71": refercount_71,"refercount_51": refercount_51,"refercount_31": refercount_31,"refercount_21": refercount_21,"refercount_11": refercount_11,"refercount_5": refercount_5,"refercount_4": refercount_4,"refercount_3": refercount_3,"refercount_2": refercount_2,"refercount_1": refercount_1,"refercount_0": refercount_0}
+        return render(request, "Page_ComputerScience.html", dict)
+    else:
+        return render(request, "login.html", {"message": "走正门"})

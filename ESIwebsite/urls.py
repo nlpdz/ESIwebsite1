@@ -31,4 +31,5 @@ urlpatterns = [
     url(r'Page_yygx.html', views.Page_yygx),
     url(r'^Page_lwzl', views.Page_lwzl),
     url(r'^Page_lwyp',views.Page_lwyp),
+    url(r'^Page_ComputerScience',views.Page_ComputerScience),
 ]
